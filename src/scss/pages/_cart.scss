@@ -1,0 +1,37 @@
+.section__cart {
+
+    .container--cart {
+        display: block;
+    }
+
+    .cart {
+        max-width: 600px;
+        margin: auto;
+        text-align: center;
+
+        &__title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        &__text {
+            color: #777;
+            font-size: 20px;
+            letter-spacing: .01em;
+            line-height: 145.4%;
+        }
+
+        img {
+            display: block;
+            margin: 45px auto 60px;
+            width: 300px;
+        }
+    }
+
+    .content {
+        &__items {
+            display: block;
+        }
+    }
+}

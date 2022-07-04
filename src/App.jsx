@@ -1,33 +1,27 @@
-import { useState } from 'react';
+import Header from '@components/Header/Header';
+import NotFound from '@pages/404';
+import Home from '@pages/Home2';
+import Cart from '@pages/Cart';
 import '@scss/app.scss';
-import Header from './components/Header';
-import Categories from './components/Categories';
-import Sort from './components/Sort';
-import PizzaCard from './components/PizzaCard';
+import { useEffect, useState } from 'react';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0);
+const App = () => {
+  useEffect(() => {}, []);
 
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
-        <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <PizzaCard title="Peperoni" price="258" />
-            <PizzaCard title="Cheese" price="404" />
-            <PizzaCard title="Meat" price="125" />
-            <PizzaCard title="Mushrooms" price="354" />
-          </div>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     </div>
   );
-}
+};
 
 export default App;

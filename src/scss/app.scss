@@ -2,38 +2,19 @@
 @import '@scss/libs/normalize';
 
 @import '@scss/components/all';
+@import '@scss/pages/all';
 
 body {
   background-color: $background;
 }
 
 .wrapper {
-  width: calc(100vw - 100px);
   height: 100%;
+  width: calc(100vw - 100px);
   background-color: #fff;
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
-}
-
-.content {
-  padding: 40px 0;
-
-  &__title {
-    margin: 35px 0;
-  }
-
-  &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  &__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
 }
 
 .container {
@@ -69,7 +50,7 @@ body {
       margin-right: 10px;
       path {
         stroke: $black;
-        stroke-width: 1.9;
+        strokeWidth: 1.9;
       }
     }
   }
@@ -147,7 +128,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 13%;
+      width: 20%;
 
       &-minus {
         svg {
@@ -258,7 +239,7 @@ body {
           margin-right: 12px;
           path {
             fill: transparent;
-            stroke-width: 2;
+            strokeWidth: 2;
           }
         }
       }
