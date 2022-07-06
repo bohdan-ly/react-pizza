@@ -1,9 +1,15 @@
 import Categories from '@components/Categories/Categories';
+import Pagination from '@components/Pagination/Pagination';
 import PizzaCard from '@components/PizzaCard/PizzaCard';
 import Sort from '@components/Sort/Sort';
+import { useDebounceCallback } from '@react-hook/debounce';
 import '@scss/app.scss';
-import { useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { SearchContext } from '../App';
 import 'react-loading-skeleton/dist/skeleton.css';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId, setSort, setPage } from '@/store/slices/filterSlice';
 
 export const CATEGORIES_TYPES = {
   all: 0,
@@ -24,38 +30,61 @@ const SORT_OPTIONS = [
 ];
 
 const Home = () => {
+  const store = useSelector((state) => ({ filter: state.filter }));
+  const dispatch = useDispatch();
+
+  const { categoryId, sort, search, page } = store.filter;
+
   const [curCategory, setCurCategory] = useState(CATEGORIES_TYPES.all);
   const [curSort, setCurSort] = useState(SORT_OPTIONS[0]);
+  const [curPage, setCurPage] = useState(1);
+
   const [pizzasList, setPizzasList] = useState([{}, {}, {}, {}, {}, {}]);
 
   useEffect(() => {
     fetchPizzas();
     window.scrollTo(0, 0);
-  }, [curCategory, curSort]);
+  }, [categoryId, sort, search, page]);
 
-  const fetchPizzas = async () => {
-    const sortBy = curSort.sortKey.replace('-', '');
-    const order = curSort.sortKey.includes('-') ? 'asc' : 'desc';
-    const category = curCategory > 0 ? `category=${curCategory}` : '';
-    const url = `https://626d16545267c14d5677d9c2.mockapi.io/items?sortBy=${sortBy}&order=${order}&${category}`;
+  const throttledFetch = useDebounceCallback(async () => {
+    const sortBy = sort.sortKey.replace('-', '');
+    const order = sort.sortKey.includes('-') ? 'asc' : 'desc';
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const searchQuery = search.length > 0 ? `&search=${search}` : '';
+
+    const url = `https://626d16545267c14d5677d9c2.mockapi.io/items?page=${page}&limit=4&sortBy=${sortBy}&order=${order}&${category}${searchQuery}`;
     const pizzas = await fetch(url).then((res) => res.json());
     if (pizzas) {
       setPizzasList(pizzas);
     }
-  };
+  }, 700);
+
+  const fetchPizzas = useCallback(throttledFetch, [categoryId, sort, search, page]);
 
   const handleChangeCategory = (catType) => {
     const catKey = catType?.toLowerCase();
     if (catKey) {
-      setCurCategory(CATEGORIES_TYPES[catKey]);
+      dispatch(setCategoryId(CATEGORIES_TYPES[catKey]));
     }
   };
+
+  const handleChangeSort = (sortObj) => {
+    dispatch(setSort(sortObj));
+  };
+
+  const handlePageClick = (pageIdx) => {
+    dispatch(setPage(pageIdx + 1));
+  };
+
+  // const filteredPizzas = pizzasList.filter(
+  //   (p) => p.title.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1,
+  // );
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories curCategory={curCategory} handleChangeCategory={handleChangeCategory} />
-        <Sort sortOptions={SORT_OPTIONS} curSort={curSort} setCurSort={setCurSort} />
+        <Categories curCategory={categoryId} handleChangeCategory={handleChangeCategory} />
+        <Sort sortOptions={SORT_OPTIONS} curSort={sort} setCurSort={handleChangeSort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
@@ -63,6 +92,7 @@ const Home = () => {
           <PizzaCard key={`${p.id}_${idx}`} {...p} />
         ))}
       </div>
+      <Pagination pageCount={3} handlePageClick={handlePageClick} />
     </div>
   );
 };
