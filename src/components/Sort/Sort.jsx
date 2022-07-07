@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Sort = ({ sortOptions = [], curSort = null, setCurSort = () => {} }) => {
+  const sortRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -12,8 +13,22 @@ const Sort = ({ sortOptions = [], curSort = null, setCurSort = () => {} }) => {
     setCurSort(sortObj);
   };
 
+  useEffect(() => {
+    const onClickOutside = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', onClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', onClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label" onClick={setIsOpen.bind(null, !isOpen)}>
         <svg
           width="10"

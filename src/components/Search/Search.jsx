@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.scss';
 import CloseIcon from '@assets/img/close.svg';
 import { SearchContext } from '../../App';
@@ -9,6 +9,7 @@ import { useDebounceCallback } from '@react-hook/debounce';
 
 const Search = () => {
   // const { searchValue, setSearchValue } = useContext(SearchContext);
+  const inputRef = useRef();
   const store = useSelector((state) => ({ filter: state.filter }));
   const dispatch = useDispatch();
 
@@ -29,6 +30,12 @@ const Search = () => {
     debouncedSearch(val);
   };
 
+  const onClearSearch = () => {
+    setSearchValue('');
+    debouncedSearch('');
+    inputRef?.current?.focus();
+  };
+
   return (
     <div className={styles.search}>
       <div>
@@ -44,6 +51,7 @@ const Search = () => {
         </svg>
       </div>
       <input
+        ref={inputRef}
         className={styles.input}
         value={searchValue}
         onChange={(e) => onChangeSearch(e.target.value)}
@@ -51,7 +59,7 @@ const Search = () => {
       />
       {searchValue && (
         <svg
-          onClick={onChangeSearch.bind(null, '')}
+          onClick={onClearSearch}
           className={styles.close}
           width="24"
           height="24"

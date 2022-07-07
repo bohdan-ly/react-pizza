@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { addProduct } from '@/store/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PIZZAS_TYPES_MAP = {
   0: 'slime',
@@ -14,9 +16,21 @@ const PizzaCard = ({
   sizes = null,
   types = null,
 }) => {
-  const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  const store = useSelector((state) => ({ item: state.cart.items.find((el) => el.id === id) }));
+
+  const { item } = store || {};
+
+  // const [count, setCount] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
+
+  const count = item?.count || 0;
+
+  const onAddPizza = () => {
+    const item = { id, title, price, imageUrl, activeSize, activeType };
+    dispatch(addProduct(item));
+  };
 
   return (
     <div className="pizza-block__wrapper">
@@ -77,8 +91,8 @@ const PizzaCard = ({
                 fill="white"
               />
             </svg>
-            <span onClick={setCount.bind(null, count + 1)}>Добавить</span>
-            <i>{count}</i>
+            <span onClick={onAddPizza}>Добавить</span>
+            {count > 0 && <i>{count}</i>}
           </div>
         </div>
       </div>
