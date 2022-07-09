@@ -1,0 +1,13 @@
+.loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
+    p {
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 25px;
+    }
+}

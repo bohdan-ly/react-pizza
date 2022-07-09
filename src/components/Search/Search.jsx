@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Search.module.scss';
-import CloseIcon from '@assets/img/close.svg';
-import { SearchContext } from '../../App';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter } from '@/store/selectors/filterSelector';
 import { setSearch } from '@/store/slices/filterSlice';
 import { useDebounceCallback } from '@react-hook/debounce';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Search = () => {
   // const { searchValue, setSearchValue } = useContext(SearchContext);
   const inputRef = useRef();
-  const store = useSelector((state) => ({ filter: state.filter }));
+  const store = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const { search } = store.filter;

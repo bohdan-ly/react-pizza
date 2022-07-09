@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { addProduct } from '@/store/slices/cartSlice';
+import { selectCartItemById } from '@/store/selectors/cartSelector';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const PIZZAS_TYPES_MAP = {
   0: 'slime',
@@ -17,7 +19,7 @@ const PizzaCard = ({
   types = null,
 }) => {
   const dispatch = useDispatch();
-  const store = useSelector((state) => ({ item: state.cart.items.find((el) => el.id === id) }));
+  const store = useSelector(selectCartItemById(id));
 
   const { item } = store || {};
 
@@ -45,7 +47,9 @@ const PizzaCard = ({
             className="pizza-block__image"
           />
         )}
-        <h4 className="pizza-block__title">{title || <Skeleton width={200} />}</h4>
+        <Link to={`/pizza/${id}`}>
+          <h4 className="pizza-block__title">{title || <Skeleton width={200} />}</h4>
+        </Link>
         <div className="pizza-block__selector">
           {types ? (
             <ul>
