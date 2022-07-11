@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { ViteAliases } from 'vite-aliases';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,9 +18,10 @@ export default defineConfig({
       adjustDuplicates: false,
       useAbsolute: false,
       useIndexes: false,
-      useConfig: false,
-      useTypescript: false,
+      useConfig: true,
+      useTypescript: true,
       root: process.cwd(),
     }),
+    tsconfigPaths(),
   ],
 });

@@ -4,14 +4,25 @@ import PizzaCard from '@components/PizzaCard/PizzaCard';
 import Sort from '@components/Sort/Sort';
 import { useDebounceCallback } from '@react-hook/debounce';
 import '@scss/app.scss';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+import { useAppSelector } from '@/hooks/global';
 import { setCategoryId, setFilters, setPage, setSort } from '@/store/slices/filterSlice';
 import { fetchPizzas } from '@/store/slices/pizzasSlice';
+import { SortOption } from '@components/Sort/Sort';
 import qs from 'qs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+type CategoriesTypes = {
+  all: number;
+  meat: number;
+  spicy: number;
+  grill: number;
+  closed: number;
+  vegan: number;
+};
 
 export const CATEGORIES_TYPES = {
   all: 0,
@@ -31,10 +42,10 @@ const SORT_OPTIONS = [
   { name: 'price (low to high)', sortKey: '-price' },
 ];
 
-const Home = () => {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const store = useSelector((state) => ({ filter: state.filter, pizzas: state.pizzas }));
+  const store = useAppSelector((state) => ({ filter: state.filter, pizzas: state.pizzas }));
 
   const { filter, pizzas } = store;
 
@@ -102,18 +113,20 @@ const Home = () => {
 
   const getPizzas = useCallback(throttledFetch, [categoryId, sort, search, page]);
 
-  const handleChangeCategory = (catType) => {
+  const getCategoryId = (key: keyof CategoriesTypes) => CATEGORIES_TYPES[key];
+
+  const handleChangeCategory = (catType: string) => {
     const catKey = catType?.toLowerCase();
     if (catKey) {
-      dispatch(setCategoryId(CATEGORIES_TYPES[catKey]));
+      dispatch(setCategoryId(getCategoryId(catKey)));
     }
   };
 
-  const handleChangeSort = (sortObj) => {
+  const handleChangeSort = (sortObj: SortOption) => {
     dispatch(setSort(sortObj));
   };
 
-  const handlePageClick = (pageIdx) => {
+  const handlePageClick = (pageIdx: number) => {
     dispatch(setPage(pageIdx + 1));
   };
 
@@ -131,7 +144,7 @@ const Home = () => {
 
     return (
       <div className="content__items">
-        {pizzasList.map((p, idx) => (
+        {pizzasList.map((p: any, idx: number) => (
           <PizzaCard key={`${p.id}_${idx}`} {...p} />
         ))}
       </div>

@@ -6,14 +6,17 @@ import { store } from './store/store';
 import { Provider } from 'react-redux';
 
 const container = document.getElementById('root');
-// @ts-ignore
-const root = createRoot(container);
-root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
-);
+
+if (container) {
+  const root = createRoot(container);
+
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>,
+  );
+}

@@ -1,16 +1,23 @@
+import { useAppSelector } from '@/hooks/global';
+import { selectCartItemById } from '@/store/selectors/cartSelector';
+import { addProduct } from '@/store/slices/cartSlice';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { addProduct } from '@/store/slices/cartSlice';
-import { selectCartItemById } from '@/store/selectors/cartSelector';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const PIZZAS_TYPES_MAP = {
-  0: 'slime',
-  1: 'traditional',
+const PIZZAS_TYPES_MAP = ['slime', 'traditional'];
+
+type PizzaCardProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
 };
 
-const PizzaCard = ({
+const PizzaCard: React.FC<PizzaCardProps> = ({
   id = '',
   title = '',
   price = '',
@@ -19,7 +26,7 @@ const PizzaCard = ({
   types = null,
 }) => {
   const dispatch = useDispatch();
-  const store = useSelector(selectCartItemById(id));
+  const store = useAppSelector(selectCartItemById(id));
 
   const { item } = store || {};
 
@@ -82,7 +89,7 @@ const PizzaCard = ({
           )}
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price || <Skeleton />} ₽</div>
+          <div className="pizza-block__price">from {price || <Skeleton />} $</div>
           <div className="button button--outline button--add">
             <svg
               width="12"
@@ -95,7 +102,7 @@ const PizzaCard = ({
                 fill="white"
               />
             </svg>
-            <span onClick={onAddPizza}>Добавить</span>
+            <span onClick={onAddPizza}>Add to</span>
             {count > 0 && <i>{count}</i>}
           </div>
         </div>

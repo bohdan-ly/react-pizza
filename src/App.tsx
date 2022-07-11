@@ -4,7 +4,7 @@ import Cart from '@pages/Cart';
 import FullPizza from '@pages/FullPizza';
 import Home from '@pages/Home';
 import '@scss/app.scss';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Route, Routes } from 'react-router-dom';
 

@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Search.module.scss';
 
+import { useAppSelector } from '@/hooks/global';
 import { selectFilter } from '@/store/selectors/filterSelector';
 import { setSearch } from '@/store/slices/filterSlice';
 import { useDebounceCallback } from '@react-hook/debounce';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const Search = () => {
+const Search: React.FC = () => {
   // const { searchValue, setSearchValue } = useContext(SearchContext);
-  const inputRef = useRef();
-  const store = useSelector(selectFilter);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const store = useAppSelector(selectFilter);
   const dispatch = useDispatch();
 
   const { search } = store.filter;
@@ -24,12 +26,12 @@ const Search = () => {
     dispatch(setSearch(searchValue));
   }, 700);
 
-  const onChangeSearch = (val) => {
-    setSearchValue(val);
-    debouncedSearch(val);
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+    debouncedSearch(event.target.value);
   };
 
-  const onClearSearch = () => {
+  const onClearSearch = (event: React.MouseEvent<SVGSVGElement>) => {
     setSearchValue('');
     debouncedSearch('');
     inputRef?.current?.focus();
@@ -53,7 +55,7 @@ const Search = () => {
         ref={inputRef}
         className={styles.input}
         value={searchValue}
-        onChange={(e) => onChangeSearch(e.target.value)}
+        onChange={onChangeSearch}
         placeholder="Search pizza..."
       />
       {searchValue && (

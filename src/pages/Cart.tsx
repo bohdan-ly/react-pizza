@@ -1,17 +1,17 @@
+import { useAppSelector } from '@/hooks/global';
 import { selectCart } from '@/store/selectors/cartSelector';
 import { clearProducts } from '@/store/slices/cartSlice';
-import emptyImage from '@assets/img/empty-cart.png';
 import CartEmpty from '@components/CartEmpty/CartEmpty';
 import CartItem from '@components/CartItem/CartItem';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const store = useSelector(selectCart);
+  const store = useAppSelector(selectCart);
 
-  const { items, totalPrice } = store;
+  const { items, totalPrice }: any = store;
 
-  const itemsCount = items.reduce((total, item) => (total += item.count), 0);
+  const itemsCount = items.reduce((total: number, item: any) => (total += item.count), 0);
 
   const onClickCart = () => {
     dispatch(clearProducts());
@@ -89,7 +89,7 @@ const Cart = () => {
             </div>
           </div>
           <div className="content__items">
-            {items.map((item, idx) => (
+            {items.map((item: any, idx: number) => (
               <CartItem key={`${item.id}_${idx}`} {...item} />
             ))}
           </div>
@@ -127,21 +127,6 @@ const Cart = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-
-  return (
-    <section className="section__cart">
-      <div className="container">
-        <div className="cart">
-          <h2 className="cart__title">Корзина пустая 😕</h2>
-          <div className="cart__text">
-            Вероятней всего, вы не заказывали ещё пиццу. Для того, чтобы заказать пиццу, перейди на
-            главную страницу.
-          </div>
-          <img src={emptyImage} alt="" />
         </div>
       </div>
     </section>

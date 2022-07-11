@@ -1,21 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const Sort = ({ sortOptions = [], curSort = null, setCurSort = () => {} }) => {
-  const sortRef = useRef();
+export type SortOption = {
+  name: string;
+  sortKey: string;
+};
+
+type SortProps = {
+  sortOptions: Array<SortOption>;
+  curSort: SortOption;
+  setCurSort: (sort: SortOption) => void;
+};
+
+type PopupClick = MouseEvent & { path: Node[] };
+
+const Sort: React.FC<SortProps> = ({ sortOptions = [], curSort = null, setCurSort = () => {} }) => {
+  const sortRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setIsOpen(false);
   }, [curSort]);
 
-  const onChangeSort = (sortObj) => {
+  const onChangeSort = (sortObj: SortOption) => {
     setIsOpen(false);
     setCurSort(sortObj);
   };
 
   useEffect(() => {
-    const onClickOutside = (e) => {
-      if (!e.path.includes(sortRef.current)) {
+    const onClickOutside = (e: MouseEvent) => {
+      const _event = e as PopupClick;
+
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setIsOpen(false);
       }
     };

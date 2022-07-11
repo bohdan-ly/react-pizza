@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
-import { CATEGORIES_TYPES } from '@pages/home';
+import React from 'react';
 
-const Categories = ({ curCategory = null, handleChangeCategory = (idx) => {} }) => {
+type CategoriesProps = {
+  curCategory: number;
+  handleChangeCategory: (cat: string) => void;
+};
+
+const Categories: React.FC<CategoriesProps> = ({
+  curCategory = null,
+  handleChangeCategory = () => {},
+}) => {
   const categories = ['All', 'Meat', 'Spicy', 'Grill', 'Closed', 'Vegan'];
 
   return (

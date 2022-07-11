@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [pizza, setPizza] = useState(null);
+  const [pizza, setPizza] = useState<{ imageUrl: string; title: string; price: number }>();
 
   useEffect(() => {
     fetchPizza();
@@ -20,11 +20,11 @@ const FullPizza = () => {
       if (data) {
         setPizza(data);
       } else {
-        setPizza({});
+        setPizza({ imageUrl: '', title: '', price: 0 });
       }
     } catch (e) {
       console.error(e);
-    //   alert(`Can't find pizza`);
+      //   alert(`Can't find pizza`);
       navigate('/');
     }
   };

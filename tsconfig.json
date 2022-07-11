@@ -1,0 +1,59 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "@components": [
+                "./src/components"
+            ],
+            "@@types/*": [
+                "./src/@types/*"
+            ],
+            "@assets/*": [
+                "./src/assets/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ],
+            "@hooks/*": [
+                "./src/hooks/*"
+            ],
+            "@layouts/*": [
+                "./src/layouts/*"
+            ],
+            "@pages/*": [
+                "./src/pages/*"
+            ],
+            "@scss/*": [
+                "./src/scss/*"
+            ],
+            "@store/*": [
+                "./src/store/*"
+            ]
+        },
+        "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx"
+    },
+    "include": [
+        "src",
+        "src/@types"
+    ]
+}

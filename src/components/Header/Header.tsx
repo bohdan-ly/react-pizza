@@ -1,14 +1,14 @@
+import { useAppSelector } from '@/hooks/global';
 import { selectCart } from '@/store/selectors/cartSelector';
 import pizzaLogo from '@assets/img/pizza-logo.svg';
 import Search from '@components/Search/Search';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-const Header = ({ searchValue = '', setSearchValue = () => {} }) => {
-  const { totalPrice, items } = useSelector(selectCart);
+const Header: React.FC = () => {
+  const { totalPrice, items } = useAppSelector(selectCart);
   const location = useLocation();
 
-  const itemsCount = items.reduce((total, item) => (total += item.count), 0);
+  const itemsCount = items.reduce((total: number, item: any) => (total += item.count), 0);
 
   return (
     <div className="header">
@@ -24,7 +24,7 @@ const Header = ({ searchValue = '', setSearchValue = () => {} }) => {
         </Link>
         {location.pathname !== '/cart' && (
           <>
-            <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+            <Search />
             <div className="header__cart">
               <Link to="/cart" className="button button--cart">
                 <span>{totalPrice || 0} $</span>
