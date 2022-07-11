@@ -2,9 +2,10 @@ import { useAppSelector } from '@/hooks/global';
 import { selectCart } from '@/store/selectors/cartSelector';
 import pizzaLogo from '@assets/img/pizza-logo.svg';
 import Search from '@components/Search/Search';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Header: React.FC = () => {
+const Header: React.FC = React.memo(() => {
   const { totalPrice, items } = useAppSelector(selectCart);
   const location = useLocation();
 
@@ -65,6 +66,6 @@ const Header: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Header;

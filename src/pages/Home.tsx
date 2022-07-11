@@ -7,12 +7,12 @@ import '@scss/app.scss';
 import { useCallback, useEffect, useRef } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { useAppSelector } from '@/hooks/global';
+import { useAppDispatch, useAppSelector } from '@/hooks/global';
 import { setCategoryId, setFilters, setPage, setSort } from '@/store/slices/filterSlice';
 import { fetchPizzas } from '@/store/slices/pizzasSlice';
 import { SortOption } from '@components/Sort/Sort';
 import qs from 'qs';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type CategoriesTypes = {
@@ -42,8 +42,8 @@ const SORT_OPTIONS = [
   { name: 'price (low to high)', sortKey: '-price' },
 ];
 
-const Home: React.FC = () => {
-  const dispatch = useDispatch();
+const Home: React.FC = React.memo(() => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const store = useAppSelector((state) => ({ filter: state.filter, pizzas: state.pizzas }));
 
@@ -76,8 +76,9 @@ const Home: React.FC = () => {
       const params = qs.parse(window.location.search.substring(1));
 
       const sort = SORT_OPTIONS.find((s) => s.sortKey === params.sortKey);
+      const allFilters = { ...params, sort };
 
-      dispatch(setFilters({ ...params, sort }));
+      dispatch(setFilters(allFilters));
       isSearch.current = true;
     }
   };
@@ -102,25 +103,25 @@ const Home: React.FC = () => {
 
     dispatch(
       fetchPizzas({
-        page,
         sortBy,
         order,
         category,
         searchQuery,
+        page: String(page),
       }),
     );
   }, 700);
 
   const getPizzas = useCallback(throttledFetch, [categoryId, sort, search, page]);
 
-  const getCategoryId = (key: keyof CategoriesTypes) => CATEGORIES_TYPES[key];
+  const getCategoryId = (key: string) => CATEGORIES_TYPES[key];
 
-  const handleChangeCategory = (catType: string) => {
+  const handleChangeCategory = useCallback((catType: string) => {
     const catKey = catType?.toLowerCase();
     if (catKey) {
       dispatch(setCategoryId(getCategoryId(catKey)));
     }
-  };
+  }, []);
 
   const handleChangeSort = (sortObj: SortOption) => {
     dispatch(setSort(sortObj));
@@ -162,6 +163,6 @@ const Home: React.FC = () => {
       <Pagination pageCount={3} handlePageClick={handlePageClick} />
     </div>
   );
-};
+});
 
 export default Home;

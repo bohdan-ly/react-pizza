@@ -4,6 +4,7 @@ import Cart from '@pages/Cart';
 import FullPizza from '@pages/FullPizza';
 import Home from '@pages/Home';
 import '@scss/app.scss';
+import { useWhyDidYouUpdate } from 'ahooks';
 import { useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Route, Routes } from 'react-router-dom';
@@ -11,7 +12,7 @@ import { Route, Routes } from 'react-router-dom';
 // export const SearchContext = createContext('');
 
 const App = () => {
-  useEffect(() => {}, []);
+  useWhyDidYouUpdate('App', {});
 
   return (
     <Routes>

@@ -3,7 +3,7 @@ import styles from './Pagination.module.scss';
 
 type PaginationProps = {
   pageCount: number;
-  pageRangeDisplayed: number;
+  pageRangeDisplayed?: number;
   handlePageClick: (page: number) => void;
 };
 

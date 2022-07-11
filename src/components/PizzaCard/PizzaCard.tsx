@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/hooks/global';
-import { selectCartItemById } from '@/store/selectors/cartSelector';
-import { addProduct } from '@/store/slices/cartSlice';
+import { selectCartItemById } from '@store/selectors/cartSelector';
+import { addProduct, CartItem } from '@store/slices/cartSlice';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';
@@ -20,7 +20,7 @@ type PizzaCardProps = {
 const PizzaCard: React.FC<PizzaCardProps> = ({
   id = '',
   title = '',
-  price = '',
+  price = 0,
   imageUrl = '',
   sizes = null,
   types = null,
@@ -37,7 +37,7 @@ const PizzaCard: React.FC<PizzaCardProps> = ({
   const count = item?.count || 0;
 
   const onAddPizza = () => {
-    const item = { id, title, price, imageUrl, activeSize, activeType };
+    const item: CartItem = { id, title, price, imageUrl, activeSize, activeType, count: 0 };
     dispatch(addProduct(item));
   };
 
