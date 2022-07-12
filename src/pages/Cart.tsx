@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/hooks/global';
-import { selectCart } from '@/store/selectors/cartSelector';
-import { clearProducts } from '@/store/slices/cartSlice';
+import { selectCart } from '@store/cart/selector';
+import { clearProducts } from '@store/cart/slice';
 import CartEmpty from '@components/CartEmpty/CartEmpty';
 import CartItem from '@components/CartItem/CartItem';
 import { useDispatch } from 'react-redux';

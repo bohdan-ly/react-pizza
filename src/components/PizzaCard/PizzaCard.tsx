@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks/global';
-import { selectCartItemById } from '@store/selectors/cartSelector';
-import { addProduct, CartItem } from '@store/slices/cartSlice';
+import { selectCartItemById } from '@store/cart/selector';
+import { addProduct } from '@store/cart/slice';
+import { CartItem } from '@store/cart/types';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';

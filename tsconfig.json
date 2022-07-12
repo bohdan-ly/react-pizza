@@ -4,9 +4,6 @@
             "@/*": [
                 "./src/*"
             ],
-            "@components": [
-                "./src/components"
-            ],
             "@@types/*": [
                 "./src/@types/*"
             ],
@@ -30,6 +27,18 @@
             ],
             "@store/*": [
                 "./src/store/*"
+            ],
+            "@utils/*": [
+                "./src/utils/*"
+            ],
+            "@pizzas/*": [
+                "./src/store/pizzas/*"
+            ],
+            "@filter/*": [
+                "./src/store/filter/*"
+            ],
+            "@cart/*": [
+                "./src/store/cart/*"
             ]
         },
         "target": "es5",

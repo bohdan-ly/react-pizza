@@ -1,15 +1,26 @@
 import { useAppSelector } from '@/hooks/global';
-import { selectCart } from '@/store/selectors/cartSelector';
+import { selectCart } from '@store/cart/selector';
+import { CartItem } from '@store/cart/types';
 import pizzaLogo from '@assets/img/pizza-logo.svg';
 import Search from '@components/Search/Search';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = React.memo(() => {
   const { totalPrice, items } = useAppSelector(selectCart);
   const location = useLocation();
 
-  const itemsCount = items.reduce((total: number, item: any) => (total += item.count), 0);
+  const isMounted = useRef(false);
+
+  const itemsCount = items.reduce((total: number, item: CartItem) => (total += item.count), 0);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cart', json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
@@ -19,7 +30,7 @@ const Header: React.FC = React.memo(() => {
             <img width="38" src={pizzaLogo} alt="Pizza logo" />
             <div>
               <h1>React Pizza</h1>
-              <p>самая вкусная пицца во вселенной</p>
+              <p>best pizza in the world</p>
             </div>
           </div>
         </Link>

@@ -8,9 +8,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { useAppDispatch, useAppSelector } from '@/hooks/global';
-import { setCategoryId, setFilters, setPage, setSort } from '@/store/slices/filterSlice';
-import { fetchPizzas } from '@/store/slices/pizzasSlice';
 import { SortOption } from '@components/Sort/Sort';
+import { setCategoryId, setFilters, setPage, setSort } from '@store/filter/slice';
+import { fetchPizzas } from '@store/pizzas/slice';
 import qs from 'qs';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';

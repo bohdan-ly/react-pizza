@@ -1,16 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type SortState = {
-  name: string;
-  sortKey: 'rating' | '-rating' | 'price' | '-price' | 'title' | '-title';
-};
-
-export interface FilterSliceState {
-  categoryId: number;
-  sort: SortState;
-  search: string;
-  page: number;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { FilterSliceState, SortState } from "./types";
 
 const initialState: FilterSliceState = {
   categoryId: 0,

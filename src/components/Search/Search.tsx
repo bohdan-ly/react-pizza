@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './Search.module.scss';
 
 import { useAppSelector } from '@/hooks/global';
-import { selectFilter } from '@/store/selectors/filterSelector';
-import { setSearch } from '@/store/slices/filterSlice';
 import { useDebounceCallback } from '@react-hook/debounce';
+import { selectFilter } from '@store/filter/selector';
+import { setSearch } from '@store/filter/slice';
 import { useDispatch } from 'react-redux';
 
 const Search: React.FC = () => {
